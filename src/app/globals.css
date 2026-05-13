@@ -1,30 +1,84 @@
 @import "tailwindcss";
 
 @theme {
-  --color-neon-cyan: #00ffff;
+  --color-neon-cyan: var(--neon-cyan);
+  --color-neon-purple: var(--neon-purple);
+  --color-neon-pink: #ff00ff;
   --color-cyan-soft: #e0ffff;
   --color-cyber-dark: #050a10;
   --color-cyber-light: #f0fdff;
-  --color-border: #00ffff33;
   
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary: #00ffff;
-  --primary-soft: #e0ffff;
-  --border: #e2e8f0;
+  --background: #fdfdfd;
+  --foreground: #020617;
+  --primary: #0369a1; 
+  --primary-soft: rgba(3, 105, 161, 0.08);
+  --border-color: rgba(0, 0, 0, 0.5); /* Prominent black/50 borders */
+  --grid-color: rgba(0, 0, 0, 0.1);
+  --section-3d-opacity: 0.7; /* Significantly increased for high visibility */
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  
+  --neon-cyan: #0891b2;
+  --neon-purple: #7e22ce;
 }
 
 .dark {
   --background: #050a10;
-  --foreground: #ededed;
+  --foreground: #f1f5f9;
   --primary: #00ffff;
   --primary-soft: rgba(0, 255, 255, 0.1);
-  --border: rgba(0, 255, 255, 0.2);
+  --border-color: rgba(0, 255, 255, 0.3); /* Restored thematic cyan border */
+  --grid-color: rgba(0, 212, 255, 0.08);
+  --section-3d-opacity: 0.55; /* Increased for dark mode as well */
+  --glass-bg: rgba(0, 255, 255, 0.02);
+  
+  --neon-cyan: #00ffff;
+  --neon-purple: #bc13fe;
+}
+
+body {
+  background: var(--background);
+}
+
+.dark body {
+  background: 
+    radial-gradient(circle at 0% 0%, rgba(188, 19, 254, 0.05) 0%, transparent 25%),
+    radial-gradient(circle at 100% 100%, rgba(0, 255, 255, 0.05) 0%, transparent 25%),
+    #050a10;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(14, 165, 233, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.03) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.dark body::before {
+  background: none;
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.dark .glass {
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 html {
@@ -35,24 +89,29 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--border-color);
   }
 }
 
-.glow-cyan {
-  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-}
-
-.dark .glow-cyan {
-  text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
-}
-
 .cyber-grid {
-  background-image: linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 50px 50px;
+  background-image: linear-gradient(var(--grid-color) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, var(--grid-color) 1.5px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+button, a {
+  cursor: pointer;
+}
+
+.border-force {
+  border: 1px solid var(--border-color) !important;
+}
+
+.border-b-force {
+  border-bottom: 1px solid var(--border-color) !important;
 }

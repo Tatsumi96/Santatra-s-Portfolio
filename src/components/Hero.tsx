@@ -10,8 +10,16 @@ export default function Hero() {
   const t = translations[lang].hero;
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-8 md:px-16 pt-16 cyber-grid">
-      <div className="max-w-7xl w-full flex flex-col md:flex-row items-center justify-between gap-12">
+    <section className="relative min-h-screen flex items-center justify-center px-8 md:px-16 pt-16 overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute inset-0 cyber-grid opacity-[0.4] -z-20" />
+      <div className="absolute top-1/4 -left-20 w-80 h-80 bg-primary/10 blur-[120px] rounded-full -z-10 animate-pulse" />
+      <div
+        className="absolute bottom-1/4 -right-20 w-80 h-80 bg-neon-purple/10 blur-[120px] rounded-full -z-10 animate-pulse"
+        style={{ animationDelay: '1s' }}
+      />
+
+      <div className="max-w-7xl w-full flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
         <div className="flex-1 text-center md:text-left z-10">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -20,10 +28,10 @@ export default function Hero() {
             className="flex items-center justify-center md:justify-start gap-3 mb-6"
           >
             <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/80">
-              Status: Available_for_Internship
+              Status:{' '}
+              <span className="text-neon-purple">Available_for_Internship</span>
             </span>
           </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -31,7 +39,8 @@ export default function Hero() {
             className="text-5xl md:text-7xl font-bold mb-4"
           >
             ANDRIANIRINA <br />
-            <span className="text-primary">Santatra</span>
+            <span className="text-primary">Santatra</span>{' '}
+            <span className="text-neon-purple">.</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -45,13 +54,15 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
+            className="flex flex-wrap gap-4 justify-center md:justify-start "
           >
             <a
               href="#projects"
-              className="px-8 py-3 border border-primary text-primary hover:bg-primary hover:text-background transition-all rounded-full font-medium inline-block shadow-[0_0_15px_rgba(64,224,208,0.2)]"
+              className="px-8 py-3 border-force text-primary hover:bg-primary hover:text-background hover:scale-105 transition-transform border-force transition-all rounded-full font-medium inline-block"
             >
               {t.cta}
             </a>
+            <div className="w-2 h-2 rounded-full self-center animate-pulse" />
           </motion.div>
         </div>
 
