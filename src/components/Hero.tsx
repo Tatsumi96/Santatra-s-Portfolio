@@ -54,15 +54,16 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="flex flex-wrap gap-4 justify-center md:justify-start "
+            className="flex flex-wrap gap-4 justify-center md:justify-start"
           >
             <a
               href="#projects"
-              className="px-8 py-3 border-force text-primary hover:bg-primary hover:text-background hover:scale-105 transition-transform border-force transition-all rounded-full font-medium inline-block"
+              aria-label={t.cta}
+              className="px-8 py-3 border-force text-primary hover:bg-primary hover:text-background hover:scale-105 transition-all rounded-full font-medium inline-block"
             >
               {t.cta}
             </a>
-            <div className="w-2 h-2 rounded-full self-center animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-neon-purple self-center animate-pulse" />
           </motion.div>
         </div>
 

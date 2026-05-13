@@ -14,7 +14,9 @@ export default function Navbar() {
   const t = translations[lang].nav;
 
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
     setMounted(true);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   if (!mounted) return null;
@@ -31,13 +33,15 @@ export default function Navbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 w-full z-50 backdrop-blur-xl border-b-force bg-background/70"
+      className="fixed top-0 w-full z-50 backdrop-blur-xl border-b-force bg-background/70 shadow-sm shadow-primary/5"
     >
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         <motion.span
           whileHover={{ scale: 1.05 }}
           className="text-xl font-bold flex items-center gap-1 cursor-pointer"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          role="link"
+          aria-label="Retour en haut"
         >
           <span className="text-primary tracking-tight">SANTATRA</span>
           <span className="text-neon-purple">.</span>
@@ -49,6 +53,7 @@ export default function Navbar() {
               key={item}
               href={`#${item}`}
               className="relative group transition-colors hover:text-primary py-2"
+              aria-label={t[item as keyof typeof t]}
             >
               {t[item as keyof typeof t]}
               <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-neon-purple/60 transition-all group-hover:w-full" />
@@ -59,6 +64,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <button
             onClick={toggleLang}
+            aria-label="Changer de langue"
             className="p-2 border-force hover:bg-primary/10 rounded-xl transition-all flex items-center gap-2 group bg-background/50"
           >
             <Languages
@@ -70,9 +76,10 @@ export default function Navbar() {
             </span>
           </button>
 
-          <div
+          <button
             className="relative flex items-center gap-2 cursor-pointer select-none"
             onClick={() => setTheme(isDark ? 'light' : 'dark')}
+            aria-label="Changer de thème"
           >
             <div
               className={`w-11 h-6 rounded-full border-force transition-colors duration-300 flex items-center p-1 ${isDark ? 'bg-neon-purple/20' : 'bg-slate-200'}`}
@@ -89,7 +96,7 @@ export default function Navbar() {
                 )}
               </motion.div>
             </div>
-          </div>
+          </button>
         </div>
       </div>
     </motion.nav>

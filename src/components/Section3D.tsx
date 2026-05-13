@@ -1,7 +1,19 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, PerspectiveCamera, Torus, Octahedron, Box, Icosahedron, MeshDistortMaterial, Stars } from "@react-three/drei";
+import { 
+  Float, 
+  PerspectiveCamera, 
+  Torus, 
+  Octahedron, 
+  Box, 
+  Icosahedron, 
+  MeshDistortMaterial, 
+  Stars,
+  Preload,
+  AdaptiveDpr,
+  Bvh
+} from "@react-three/drei";
 import { useRef, useMemo } from "react";
 import * as THREE from "three";
 import { useTheme } from "next-themes";
@@ -9,19 +21,20 @@ import { useTheme } from "next-themes";
 function ScatteredParticles() {
   const { theme } = useTheme();
   const isLight = theme === "light";
-  const count = 50;
+  const count = 40; 
   const meshRef = useRef<THREE.Group>(null);
   
   const particles = useMemo(() => {
     const temp = [];
     for (let i = 0; i < count; i++) {
+      /* eslint-disable react-hooks/purity */
       temp.push({
         position: [(Math.random() - 0.5) * 25, (Math.random() - 0.5) * 25, (Math.random() - 0.5) * 15] as [number, number, number],
-        scale: Math.random() * 0.25 + 0.05,
+        scale: Math.random() * 0.2 + 0.05,
         rotation: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI] as [number, number, number],
-        speed: Math.random() * 0.15 + 0.05,
-        color: i % 3 === 0 ? "var(--neon-cyan)" : i % 3 === 1 ? "var(--neon-purple)" : "#ec4899"
+        speed: Math.random() * 0.1 + 0.05,
       });
+      /* eslint-enable react-hooks/purity */
     }
     return temp;
   }, []);
@@ -31,7 +44,7 @@ function ScatteredParticles() {
     const time = state.clock.getElapsedTime();
     meshRef.current.children.forEach((child, i) => {
       const p = particles[i];
-      child.position.y += Math.sin(time * p.speed + i) * 0.003;
+      child.position.y += Math.sin(time * p.speed + i) * 0.002;
       child.rotation.x += 0.005;
       child.rotation.y += 0.005;
     });
@@ -48,7 +61,7 @@ function ScatteredParticles() {
             opacity={isLight ? 0.6 : 0.4} 
             wireframe 
             emissive={isLight ? "black" : (i % 3 === 0 ? "#00ffff" : i % 3 === 1 ? "#bc13fe" : "#ff00ff")}
-            emissiveIntensity={isLight ? 0 : 0.5}
+            emissiveIntensity={isLight ? 0 : 0.3} 
           />
         </mesh>
       ))}
@@ -63,19 +76,19 @@ function RotatingShape({ type, color }: { type: 'torus' | 'octa' | 'box' | 'comp
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
     if (meshRef.current) {
-      meshRef.current.rotation.x = time * 0.4;
-      meshRef.current.rotation.y = time * 0.2;
+      meshRef.current.rotation.x = time * 0.2;
+      meshRef.current.rotation.y = time * 0.1;
     }
     if (outerRef.current) {
-      outerRef.current.rotation.x = -time * 0.2;
-      outerRef.current.rotation.y = -time * 0.4;
+      outerRef.current.rotation.x = -time * 0.1;
+      outerRef.current.rotation.y = -time * 0.2;
     }
   });
 
   return (
-    <Float speed={2.5} rotationIntensity={1.5} floatIntensity={1.5}>
+    <Float speed={2} rotationIntensity={1} floatIntensity={1}>
       {type === 'torus' && (
-        <Torus ref={meshRef} args={[1.2, 0.4, 32, 100]}>
+        <Torus ref={meshRef} args={[1.2, 0.4, 16, 64]}>
           <meshStandardMaterial color={color} roughness={0.3} metalness={0.7} wireframe />
         </Torus>
       )}
@@ -91,8 +104,8 @@ function RotatingShape({ type, color }: { type: 'torus' | 'octa' | 'box' | 'comp
       )}
       {type === 'complex' && (
         <group>
-          <Icosahedron ref={meshRef} args={[1, 15]}>
-            <MeshDistortMaterial color={color} speed={2} distort={0.4} metalness={0.8} roughness={0.2} transparent opacity={0.6} />
+          <Icosahedron ref={meshRef} args={[1, 8]}>
+            <MeshDistortMaterial color={color} speed={1.5} distort={0.3} metalness={0.8} roughness={0.2} transparent opacity={0.6} />
           </Icosahedron>
           <Octahedron ref={outerRef} args={[1.6, 1]}>
             <meshStandardMaterial color={color} wireframe transparent opacity={0.2} />
@@ -109,14 +122,18 @@ export default function Section3D({ type, color = "#00ffff" }: { type: 'torus' |
 
   return (
     <div className="absolute inset-0 -z-10 pointer-events-none opacity-[var(--section-3d-opacity)] transition-opacity duration-500">
-      <Canvas>
+      <Canvas dpr={[1, 2]} performance={{ min: 0.5 }}>
         <PerspectiveCamera makeDefault position={[0, 0, 5]} />
-        <ambientLight intensity={isLight ? 1.2 : 0.4} />
-        <pointLight position={[10, 10, 10]} intensity={isLight ? 3 : 2} color="#00ffff" />
-        <pointLight position={[-10, -10, 10]} intensity={isLight ? 3 : 2} color="#bc13fe" />
-        <RotatingShape type={type} color={color} />
-        <ScatteredParticles />
-        {!isLight && <Stars radius={100} depth={50} count={1000} factor={4} saturation={0} fade speed={1} />}
+        <Bvh firstHitOnly>
+          <ambientLight intensity={isLight ? 1.2 : 0.4} />
+          <pointLight position={[10, 10, 10]} intensity={isLight ? 3 : 2} color="#00ffff" />
+          <pointLight position={[-10, -10, 10]} intensity={isLight ? 3 : 2} color="#bc13fe" />
+          <RotatingShape type={type} color={color} />
+          <ScatteredParticles />
+          {!isLight && <Stars radius={100} depth={50} count={500} factor={4} saturation={0} fade speed={1} />}
+          <Preload all />
+          <AdaptiveDpr pixelated />
+        </Bvh>
       </Canvas>
     </div>
   );
