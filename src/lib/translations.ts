@@ -9,6 +9,7 @@ export const translations = {
     hero: {
       role: "Développeur Web & Mobile",
       cta: "Voir mes projets",
+      status: "Disponible_pour_recrutement",
     },
     about: {
       title: "À propos de moi",
@@ -36,6 +37,7 @@ export const translations = {
     hero: {
       role: "Web & Mobile Developer",
       cta: "View my projects",
+      status: "Available_for_Hire",
     },
     about: {
       title: "About Me",
@@ -63,6 +65,7 @@ export const translations = {
     hero: {
       role: "Mpamolavola Mpamorona Web & Mobile",
       cta: "Hijery ny tetikasa",
+      status: "Vonona_hiasa",
     },
     about: {
       title: "Momba ahy",

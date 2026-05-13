@@ -29,7 +29,7 @@ export default function Hero() {
           >
             <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/80">
               Status:{' '}
-              <span className="text-neon-purple">Available_for_Internship</span>
+              <span className="text-neon-purple">{t.status}</span>
             </span>
           </motion.div>
           <motion.h1

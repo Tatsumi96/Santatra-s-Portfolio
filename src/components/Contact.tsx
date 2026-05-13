@@ -29,7 +29,7 @@ export default function Contact() {
             {t.title} <span className="text-neon-purple">.</span>
           </h2>
           <p className="text-lg text-foreground/70 mb-12">
-            Je suis actuellement à la recherche d&apos;un stage de développeur.
+            Je suis actuellement à la recherche de nouvelles opportunités professionnelles.
             N&apos;hésitez pas à me contacter pour discuter de vos projets !
           </p>
 
