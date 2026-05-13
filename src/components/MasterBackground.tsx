@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -39,16 +40,13 @@ function MasterShape() {
     meshRef.current.rotation.y = time * 0.15 + scrollProgress * Math.PI;
     
     // Zoom/Scale effect
-    const scale = 1.5 + scrollProgress * 2;
+    const scale = 1.5 + scrollProgress * 1.5;
     meshRef.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
     
     // Dynamic distortion
-    if (meshRef.current.material instanceof THREE.MeshPhysicalMaterial || meshRef.current.material instanceof THREE.ShaderMaterial) {
-       // @ts-expect-error - distort property exists on MeshDistortMaterial but not on base material types
-       if (meshRef.current.material.distort !== undefined) {
-         // @ts-expect-error - distort property exists on MeshDistortMaterial
-         meshRef.current.material.distort = 0.2 + scrollProgress * 0.5;
-       }
+    const material = meshRef.current.material as any; // Cast to any to bypass potential issues with instanceof
+    if (material && typeof material.distort === 'number') {
+       material.distort = 0.2 + scrollProgress * 0.5;
     }
   });
 
@@ -56,13 +54,13 @@ function MasterShape() {
     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.2}>
       <Icosahedron ref={meshRef} args={[1, 40]}>
         <MeshDistortMaterial
-          color={isLight ? "#050505" : "#fafafa"}
+          color={isLight ? "#e0e0e0" : "#aaaaaa"} // Light grey for light mode, medium grey for dark mode
           speed={1.5}
           distort={0.3}
-          roughness={0.05}
-          metalness={0.95}
+          roughness={isLight ? 0.05 : 0.1} // Smoother in light mode for more reflection
+          metalness={0.98} // High metalness for chrome effect
           transparent
-          opacity={0.3}
+          opacity={isLight ? 0.5 : 0.6} // Increased opacity, especially in dark mode
         />
       </Icosahedron>
     </Float>
@@ -78,8 +76,8 @@ function SceneContent() {
       <PerspectiveCamera makeDefault position={[0, 0, 6]} />
       <Bvh firstHitOnly>
         <ambientLight intensity={isLight ? 2 : 0.2} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={isLight ? 100 : 200} color={isLight ? "#050505" : "#fafafa"} />
-        <pointLight position={[-10, -10, -10]} intensity={isLight ? 50 : 100} color={isLight ? "#050505" : "#fafafa"} />
+        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={isLight ? 100 : 200} color={isLight ? "#e0e0e0" : "#aaaaaa"} />
+        <pointLight position={[-10, -10, -10]} intensity={isLight ? 50 : 100} color={isLight ? "#e0e0e0" : "#aaaaaa"} />
         <MasterShape />
         <Preload all />
         <AdaptiveDpr pixelated />
