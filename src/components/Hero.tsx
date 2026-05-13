@@ -13,6 +13,17 @@ export default function Hero() {
     <section className="min-h-screen flex items-center justify-center px-8 md:px-16 pt-16 cyber-grid">
       <div className="max-w-7xl w-full flex flex-col md:flex-row items-center justify-between gap-12">
         <div className="flex-1 text-center md:text-left z-10">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+            className="flex items-center justify-center md:justify-start gap-3 mb-6"
+          >
+            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/80">
+              Status: Available_for_Internship
+            </span>
+          </motion.div>
+
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
