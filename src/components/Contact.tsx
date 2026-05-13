@@ -1,57 +1,55 @@
-'use client';
+"use client";
 
-import { useLanguage } from '@/hooks/use-language';
-import { translations } from '@/lib/translations';
-import { motion } from 'framer-motion';
-import { Mail } from 'lucide-react';
-import { GithubIcon as Github } from './icons/GithubIcon';
-import Section3D from './Section3D';
+import { useLanguage } from "@/hooks/use-language";
+import { translations } from "@/lib/translations";
+import { motion } from "framer-motion";
+import { Mail } from "lucide-react";
+import { GithubIcon as Github } from "./icons/GithubIcon";
 
 export default function Contact() {
   const { lang } = useLanguage();
   const t = translations[lang].contact;
 
   return (
-    <section id="contact" className="relative py-24 px-4 overflow-hidden border-t-force">
-      <Section3D type="complex" color="#bc13fe" />
-      {/* Background ambient glow */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-neon-purple/5 blur-[120px] -z-10 rounded-full" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 blur-[120px] -z-10 rounded-full" />
-
-      <div className="max-w-3xl mx-auto relative z-10 glass p-12 rounded-3xl border-force text-center">
-
+    <section id="contact" className="relative py-48 px-6 md:px-24 border-t border-border-color overflow-hidden">
+      <div className="max-w-screen-2xl w-full mx-auto text-center">
         <motion.div
           whileInView={{ opacity: 1, y: 0 }}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            {t.title} <span className="text-neon-purple">.</span>
-          </h2>
-          <p className="text-lg text-foreground/70 mb-12">
-            Je suis actuellement à la recherche de nouvelles opportunités professionnelles.
-            N&apos;hésitez pas à me contacter pour discuter de vos projets !
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-6">
+          <span className="text-meta mb-8 block tracking-[1em]">{t.phase}</span>
+          <h2 className="heading-huge mb-16">{t.title}</h2>
+          
+          <div className="flex flex-col md:flex-row items-center justify-center gap-12">
             <a
               href="mailto:fitiavanaandrianirina57@gmail.com"
-              className="flex items-center gap-3 px-6 py-3 bg-primary text-background rounded-full font-bold hover:scale-105 transition-transform border-force duration-300"
+              className="group flex items-center gap-6 text-2xl md:text-5xl font-black uppercase tracking-tighter hover:text-primary transition-colors"
             >
-              <Mail size={20} />
+              <div className="w-12 h-12 flex items-center justify-center border border-border-color group-hover:bg-[var(--hover-bg)] group-hover:text-[var(--hover-text)] transition-colors">
+                <Mail size={24} />
+              </div>
               {t.email}
             </a>
+            
             <a
               href="https://github.com/tatsumi96"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 px-6 py-3 border-neon-purple/50 text-neon-purple rounded-full font-bold hover:scale-105 transition-transform border-force duration-500"
+              className="group flex items-center gap-6 text-2xl md:text-5xl font-black uppercase tracking-tighter hover:text-primary transition-colors"
             >
-              <Github size={20} />
+              <div className="w-12 h-12 flex items-center justify-center border border-border-color group-hover:bg-[var(--hover-bg)] group-hover:text-[var(--hover-text)] transition-colors">
+                <Github size={24} />
+              </div>
               {t.github}
             </a>
           </div>
         </motion.div>
+      </div>
+      
+      {/* Background Decorative Text */}
+      <div className="absolute -bottom-10 left-0 w-full overflow-hidden pointer-events-none opacity-5">
+         <span className="text-[20vw] font-black uppercase leading-none whitespace-nowrap">{t.tagline}</span>
       </div>
     </section>
   );

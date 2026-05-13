@@ -15,17 +15,28 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: 'Santatra | Développeur Web & Mobile Full-Stack',
-  description: 'Portfolio de Santatra, développeur Web et Mobile spécialisé en React, Next.js et React Native. Découvrez mes projets et compétences.',
-  keywords: ['Santatra', 'Développeur Web', 'Développeur Mobile', 'React', 'Next.js', 'React Native', 'TypeScript', 'Portfolio'],
+  description:
+    'Portfolio de Santatra, développeur Web et Mobile spécialisé en React, Next.js et React Native. Découvrez mes projets et compétences.',
+  keywords: [
+    'Santatra',
+    'Développeur Web',
+    'Développeur Mobile',
+    'React',
+    'Next.js',
+    'React Native',
+    'TypeScript',
+    'Portfolio',
+  ],
   authors: [{ name: 'Santatra' }],
   openGraph: {
     title: 'Santatra | Développeur Web & Mobile Full-Stack',
-    description: 'Portfolio moderne mettant en avant des projets innovants en Web et Mobile.',
+    description:
+      'Portfolio moderne mettant en avant des projets innovants en Web et Mobile.',
     url: 'https://votre-portfolio.com', // À mettre à jour avec l'URL réelle
     siteName: 'Santatra Portfolio',
     images: [
       {
-        url: '/Santatra.webp',
+        url: '/Santatra.jpeg',
         width: 800,
         height: 800,
         alt: 'Santatra - Développeur',

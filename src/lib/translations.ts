@@ -1,86 +1,158 @@
 export const translations = {
   fr: {
     nav: {
-      about: "À propos",
-      skills: "Compétences",
-      projects: "Projets",
+      about: "Profil",
+      skills: "Système",
+      projects: "Travaux",
       contact: "Contact",
     },
     hero: {
-      role: "Développeur Web & Mobile",
-      cta: "Voir mes projets",
+      role: "Architecte Digital & Développeur Full-Stack",
+      cta: "Découvrir les Travaux",
       status: "Disponible_pour_recrutement",
+      tagline: "Construire des expériences numériques avec précision et géométrie abstraite.",
     },
     about: {
-      title: "À propos de moi",
-      description: "Étudiant en Licence 3 Informatique à l'Université ASJA, je suis passionné par le développement d'applications innovantes. J'ai une forte capacité d'adaptation aux nouvelles technologies et aux outils IA.",
+      title: "Spécifications du Profil",
+      description: "Étudiant en Licence 3 Informatique à l'Université ASJA, je conçois des applications innovantes en fusionnant architecture logicielle et outils d'intelligence artificielle.",
+      subtitle: "01_blueprint",
+    },
+    footer: {
+      location: "Madagascar • Architecte de Code",
     },
     skills: {
-      title: "Compétences",
+      title: "Index Technique",
+      subtitle: "Moteur",
+      categories: {
+        logic: "Logique",
+        structural: "Structure",
+        native: "Natif",
+        neural: "Neuronal",
+        engine: "Moteur",
+        storage: "Stockage",
+      }
     },
     projects: {
-      title: "Projets Récents",
+      title: "Études de Cas",
+      subtitle: "Projets Sélectionnés",
+      source: "Code_Source",
+      demo: "Voir_Étude",
+      items: [
+        { title: "ASJA_INFRA", desc: "Infrastructure numérique pour l'université ASJA. Implémentation Next.js haute performance avec suivi académique en temps réel." },
+        { title: "MADA_ASSIST", desc: "Protocole d'assistance décentralisé pour la logistique régionale. Construit en React Native pour la résilience." },
+        { title: "YETSENA_CORE", desc: "Moteur e-commerce construit avec précision structurelle. Focus sur l'accessibilité et un langage de design abstrait." },
+      ]
     },
     contact: {
-      title: "Me contacter",
+      title: "Connexion",
       email: "Email",
       github: "GitHub",
+      phase: "Phase_Finale",
+      tagline: "Collaborer_Bâtir_Évoluer_",
     },
   },
   en: {
     nav: {
-      about: "About",
-      skills: "Skills",
-      projects: "Projects",
+      about: "Profile",
+      skills: "System",
+      projects: "Works",
       contact: "Contact",
     },
     hero: {
-      role: "Web & Mobile Developer",
-      cta: "View my projects",
+      role: "Digital Architect & Full-Stack Developer",
+      cta: "Explore Works",
       status: "Available_for_Hire",
+      tagline: "Constructing digital experiences with precision and abstract geometry.",
     },
     about: {
-      title: "About Me",
-      description: "A 3rd-year Computer Science student at ASJA University, I am passionate about developing innovative applications. I have a strong ability to adapt to new technologies and AI tools.",
+      title: "Profile Specifications",
+      description: "A 3rd-year Computer Science student at ASJA University, I design innovative applications by merging software architecture and AI-driven tools.",
+      subtitle: "01_blueprint",
+    },
+    footer: {
+      location: "Madagascar • Digital Architect",
     },
     skills: {
-      title: "Skills",
+      title: "Technical Index",
+      subtitle: "Engine",
+      categories: {
+        logic: "Logic",
+        structural: "Structural",
+        native: "Native",
+        neural: "Neural",
+        engine: "Engine",
+        storage: "Storage",
+      }
     },
     projects: {
-      title: "Recent Projects",
+      title: "Case Studies",
+      subtitle: "Selected Works",
+      source: "Source_Code",
+      demo: "View_Study",
+      items: [
+        { title: "ASJA_INFRA", desc: "Digital infrastructure for ASJA University. High-performance Next.js implementation with real-time academic tracking." },
+        { title: "MADA_ASSIST", desc: "A decentralized assistance protocol for regional logistics. Built on React Native for resilience and speed." },
+        { title: "YETSENA_CORE", desc: "E-commerce engine built with structural precision. Focusing on accessibility and abstract design language." },
+      ]
     },
     contact: {
-      title: "Contact Me",
+      title: "Connect",
       email: "Email",
       github: "GitHub",
+      phase: "Final_Phase",
+      tagline: "Collaborate_Build_Scale_",
     },
   },
   mg: {
     nav: {
-      about: "Momba ahy",
-      skills: "Traikefa",
+      about: "Mombamomba",
+      skills: "Rafi-pahalalana",
       projects: "Tetikasa",
-      contact: "Fifandraisana",
+      contact: "Hifandray",
     },
     hero: {
-      role: "Mpamolavola Mpamorona Web & Mobile",
-      cta: "Hijery ny tetikasa",
+      role: "Mpamolavola sy Mpamorona Full-Stack",
+      cta: "Hijery Tetikasa",
       status: "Vonona_hiasa",
+      tagline: "Mamolavola traikefa ara-kajimirindra amin'ny alalan'ny mazava sy endrika ara-jeometrika.",
     },
     about: {
-      title: "Momba ahy",
-      description: "Mpianatra amin'ny taona fahatelo (Licence 3) momba ny Informatika ao amin'ny Oniversite ASJA, tia manao zavatra vaovao amin'ny alalan'ny teknolojia. Mahay mampiasa fitaovana vaovao sy AI.",
+      title: "Mombamomba ny Teknika",
+      description: "Mpianatra amin'ny taona fahatelo momba ny Informatika ao amin'ny Oniversite ASJA, tia mamorona zava-baovao amin'ny alalan'ny fampifandraisana ny rafitra lozisialy sy ny fitaovana AI.",
+      subtitle: "01_blueprint",
+    },
+    footer: {
+      location: "Madagasikara • Mpamorona",
     },
     skills: {
-      title: "Traikefa",
+      title: "Tondro Teknika",
+      subtitle: "Moteur",
+      categories: {
+        logic: "Lojika",
+        structural: "Rafitra",
+        native: "Natif",
+        neural: "Neural",
+        engine: "Moteur",
+        storage: "Tahiry",
+      }
     },
     projects: {
-      title: "Ireo Tetikasa",
+      title: "Fandalinana Tetikasa",
+      subtitle: "Ireo Tetikasa voafidy",
+      source: "Kaody_Loharano",
+      demo: "Hijery_Tetikasa",
+      items: [
+        { title: "ASJA_INFRA", desc: "Fotodrafitrasa nomerika ho an'ny oniversite ASJA. Fampiharana Next.js avo lenta miaraka amin'ny fanaraha-maso ny fianarana." },
+        { title: "MADA_ASSIST", desc: "Fitsipika fanampiana fitsinjarana ho an'ny logistika isam-paritra. Namboarina tamin'ny React Native." },
+        { title: "YETSENA_CORE", desc: "Môtôra e-commerce namboarina tamim-pahamarinana. Mifantoka amin'ny fahafahana miditra sy endrika abstraite." },
+      ]
     },
     contact: {
-      title: "Hifandray amiko",
+      title: "Hifandray",
       email: "Email",
       github: "GitHub",
+      phase: "Dingana_Farany",
+      tagline: "Miaraka_Manorina_Mivoatra_",
     },
   },
 };

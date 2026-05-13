@@ -3,79 +3,63 @@
 import { useLanguage } from '@/hooks/use-language';
 import { translations } from '@/lib/translations';
 import { motion } from 'framer-motion';
-import ThreeScene from './ThreeScene';
 
 export default function Hero() {
   const { lang } = useLanguage();
   const t = translations[lang].hero;
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-8 md:px-16 pt-16 overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute inset-0 cyber-grid opacity-[0.4] -z-20" />
-      <div className="absolute top-1/4 -left-20 w-80 h-80 bg-primary/10 blur-[120px] rounded-full -z-10 animate-pulse" />
-      <div
-        className="absolute bottom-1/4 -right-20 w-80 h-80 bg-neon-purple/10 blur-[120px] rounded-full -z-10 animate-pulse"
-        style={{ animationDelay: '1s' }}
-      />
-
-      <div className="max-w-7xl w-full flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
-        <div className="flex-1 text-center md:text-left z-10">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1 }}
-            className="flex items-center justify-center md:justify-start gap-3 mb-6"
-          >
-            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/80">
-              Status:{' '}
-              <span className="text-neon-purple">{t.status}</span>
-            </span>
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-5xl md:text-7xl font-bold mb-4"
-          >
-            ANDRIANIRINA <br />
-            <span className="text-primary">Santatra</span>{' '}
-            <span className="text-neon-purple">.</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="text-xl md:text-2xl text-foreground/70 mb-8 max-w-lg mx-auto md:mx-0"
-          >
-            {t.role}
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="flex flex-wrap gap-4 justify-center md:justify-start"
-          >
-            <a
-              href="#projects"
-              aria-label={t.cta}
-              className="px-8 py-3 border-force text-primary hover:bg-primary hover:text-background hover:scale-105 transition-all rounded-full font-medium inline-block"
-            >
-              {t.cta}
-            </a>
-            <div className="w-2 h-2 rounded-full bg-neon-purple self-center animate-pulse" />
-          </motion.div>
-        </div>
+    <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-24">
+      <div className="max-w-screen-2xl w-full mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-8"
+        >
+          <span className="text-meta">{t.status}</span>
+        </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.6, duration: 1 }}
-          className="flex-1 w-full flex justify-center items-center"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
-          <ThreeScene />
+          <h1 className="heading-huge">
+            ANDRIANIRINA <br />
+            <span className="text-primary/40 outline-text">Santatra</span>
+          </h1>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-12 flex flex-col md:flex-row md:items-end justify-between gap-12"
+        >
+          <p className="text-xl md:text-3xl max-w-2xl font-light leading-snug">
+            {t.role} — <br />
+            {t.tagline}
+          </p>
+
+          <a
+            href="#projects"
+            aria-label={t.cta}
+            className="group relative inline-flex items-center justify-center px-12 py-5 overflow-hidden font-black uppercase tracking-[0.4em] text-xs border border-primary/20 hover:border-primary transition-colors duration-500"
+          >
+            <span className="relative z-10">{t.cta}</span>
+            <motion.div 
+              className="absolute inset-0 bg-primary translate-y-[101%] group-hover:translate-y-0 transition-transform duration-500 ease-[0.16,1,0.3,1]"
+            />
+            <span className="absolute inset-0 z-20 flex items-center justify-center text-background translate-y-[101%] group-hover:translate-y-0 transition-transform duration-500 ease-[0.16,1,0.3,1]">
+              {t.cta}
+            </span>
+          </a>
         </motion.div>
       </div>
+      
+      {/* Decorative vertical line */}
+      <div className="absolute left-6 md:left-24 bottom-0 w-[1px] h-24 bg-primary/20" />
     </section>
   );
 }

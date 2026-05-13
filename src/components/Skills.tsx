@@ -4,58 +4,57 @@ import { useLanguage } from "@/hooks/use-language";
 import { translations } from "@/lib/translations";
 import { motion } from "framer-motion";
 import { Code2, Layout, Smartphone, Server, Database, Cpu } from "lucide-react";
-import Section3D from "./Section3D";
-
-const skillCategories = [
-  { name: "Languages", skills: ["TypeScript", "JavaScript", "PHP", "HTML5", "CSS3"], icon: <Code2 />, color: "var(--neon-cyan)" },
-  { name: "Frontend", skills: ["React.js", "Next.js", "TailwindCSS", "Vite"], icon: <Layout />, color: "var(--neon-purple)" },
-  { name: "Mobile", skills: ["React Native"], icon: <Smartphone />, color: "#ec4899" }, // Pink
-  { name: "Backend", skills: ["Node.js", "Express.js", "Laravel"], icon: <Server />, color: "var(--neon-cyan)" },
-  { name: "Database", skills: ["PostgreSQL", "MySQL"], icon: <Database />, color: "var(--neon-purple)" },
-  { name: "Tools & AI", skills: ["Docker", "Git", "Claude AI", "Gemini CLI"], icon: <Cpu />, color: "#ec4899" },
-];
 
 export default function Skills() {
   const { lang } = useLanguage();
   const t = translations[lang].skills;
 
-  return (
-    <section id="skills" className="relative py-24 px-4 overflow-hidden">
-      <Section3D type="octa" color="#bc13fe" />
-      <div className="absolute inset-0 cyber-grid opacity-[0.05] -z-20" />
-      
-      <div className="max-w-7xl mx-auto relative z-10">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 flex items-center gap-4">
-          <span className="text-primary font-mono text-xl">02.</span> {t.title}
-        </h2>
+  const skillCategories = [
+    { name: t.categories.logic, skills: ["TypeScript", "JavaScript", "PHP"], icon: <Code2 /> },
+    { name: t.categories.structural, skills: ["React", "Next.js", "Tailwind"], icon: <Layout /> },
+    { name: t.categories.native, skills: ["React Native", "Expo"], icon: <Smartphone /> },
+    { name: t.categories.neural, skills: ["Claude", "Gemini", "OpenAI"], icon: <Cpu /> },
+    { name: t.categories.engine, skills: ["Node.js", "Express", "Laravel"], icon: <Server /> },
+    { name: t.categories.storage, skills: ["PostgreSQL", "MySQL", "Redis"], icon: <Database /> },
+  ];
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  return (
+    <section id="skills" className="relative py-32 px-6 md:px-24 border-t border-border-color">
+      <div className="max-w-screen-2xl w-full mx-auto">
+        <div className="flex items-baseline gap-8 mb-24">
+           <h2 className="heading-huge text-primary/10">{t.subtitle}</h2>
+           <span className="text-meta">02 // {t.title}</span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 border-l border-t border-border-color">
           {skillCategories.map((cat, i) => (
             <motion.div
               key={cat.name}
-              whileInView={{ opacity: 1, y: 0 }}
-              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="glass p-6 rounded-2xl border-force transition-all group bg-background/40 hover:bg-background/60"
-              style={{ boxShadow: `0 0 20px ${cat.color}15` }}
+              transition={{ delay: i * 0.05 }}
+              className="p-8 border-r border-b border-border-color group hover:bg-[var(--hover-bg)] hover:text-[var(--hover-text)] transition-colors duration-500"
             >
-              <div 
-                className="flex items-center gap-4 mb-4 group-hover:scale-110 transition-transform"
-                style={{ color: cat.color }}
-              >
+              <div className="mb-12 opacity-30 group-hover:opacity-100 transition-opacity">
                 {cat.icon}
-                <h3 className="text-xl font-bold text-foreground">{cat.name}</h3>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <h3 className="text-sm font-black uppercase tracking-widest mb-6">{cat.name}</h3>
+              <ul className="space-y-2">
                 {cat.skills.map(skill => (
-                  <span key={skill} className="px-3 py-1 bg-primary-soft border-force text-primary text-xs rounded-full font-mono">
+                  <li key={skill} className="text-xs font-mono opacity-50 group-hover:opacity-100 flex items-center gap-2">
+                    <div className="w-1 h-1 bg-primary group-hover:bg-[var(--hover-text)] transition-colors" />
                     {skill}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </motion.div>
           ))}
+          
+          {/* Decorative Blank Fill */}
+          <div className="md:col-span-2 p-12 flex items-center justify-center border-r border-b border-border-color opacity-5 hidden lg:flex">
+             <div className="w-full h-full border border-dashed border-primary" />
+          </div>
         </div>
       </div>
     </section>

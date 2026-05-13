@@ -2,7 +2,7 @@
 
 import { useLanguage } from '@/hooks/use-language';
 import { translations } from '@/lib/translations';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { Languages, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
@@ -11,12 +11,16 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const { lang, setLang } = useLanguage();
   const [mounted, setMounted] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { scrollY } = useScroll();
   const t = translations[lang].nav;
 
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setIsScrolled(latest > 50);
+  });
+
   useEffect(() => {
-    /* eslint-disable react-hooks/set-state-in-effect */
     setMounted(true);
-    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   if (!mounted) return null;
@@ -33,69 +37,50 @@ export default function Navbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 w-full z-50 backdrop-blur-xl border-b-force bg-background/70 shadow-sm shadow-primary/5"
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+        isScrolled ? 'bg-background/80 backdrop-blur-xl border-b border-border-color' : 'bg-transparent'
+      }`}
     >
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="max-w-screen-2xl mx-auto px-6 md:px-24 h-24 flex items-center justify-between">
         <motion.span
           whileHover={{ scale: 1.05 }}
-          className="text-xl font-bold flex items-center gap-1 cursor-pointer"
+          className="text-xl font-black tracking-tighter flex items-center gap-1 cursor-pointer"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           role="link"
-          aria-label="Retour en haut"
+          aria-label="Back to Top"
         >
-          <span className="text-primary tracking-tight">SANTATRA</span>
-          <span className="text-neon-purple">.</span>
+          SANTATRA<span className="text-primary">.</span>
         </motion.span>
 
-        <div className="hidden md:flex gap-8 text-sm font-semibold tracking-wide">
+        <div className="hidden md:flex gap-12">
           {['about', 'skills', 'projects', 'contact'].map(item => (
             <a
               key={item}
               href={`#${item}`}
-              className="relative group transition-colors hover:text-primary py-2"
+              className="text-[10px] font-black uppercase tracking-[0.4em] opacity-60 hover:opacity-100 transition-opacity"
               aria-label={t[item as keyof typeof t]}
             >
               {t[item as keyof typeof t]}
-              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-neon-purple/60 transition-all group-hover:w-full" />
             </a>
           ))}
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-8">
           <button
             onClick={toggleLang}
-            aria-label="Changer de langue"
-            className="p-2 border-force hover:bg-primary/10 rounded-xl transition-all flex items-center gap-2 group bg-background/50"
+            aria-label="Change Language"
+            className="text-[10px] font-black uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity flex items-center gap-2"
           >
-            <Languages
-              size={16}
-              className="text-primary group-hover:text-neon-purple transition-colors"
-            />
-            <span className="text-[10px] uppercase font-bold tracking-widest">
-              {lang}
-            </span>
+            <Languages size={14} />
+            {lang}
           </button>
 
           <button
-            className="relative flex items-center gap-2 cursor-pointer select-none"
+            className="p-2 opacity-60 hover:opacity-100 transition-opacity"
             onClick={() => setTheme(isDark ? 'light' : 'dark')}
-            aria-label="Changer de thème"
+            aria-label="Toggle Theme"
           >
-            <div
-              className={`w-11 h-6 rounded-full border-force transition-colors duration-300 flex items-center p-1 ${isDark ? 'bg-neon-purple/20' : 'bg-slate-200'}`}
-            >
-              <motion.div
-                animate={{ x: isDark ? 20 : 0 }}
-                transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                className={`w-4 h-4 rounded-full flex items-center justify-center shadow-md ${isDark ? 'bg-neon-purple' : 'bg-white'}`}
-              >
-                {isDark ? (
-                  <Moon size={10} className="text-white" />
-                ) : (
-                  <Sun size={10} className="text-amber-500" />
-                )}
-              </motion.div>
-            </div>
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
         </div>
       </div>
