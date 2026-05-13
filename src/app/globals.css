@@ -1,26 +1,54 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+@theme {
+  --color-neon-cyan: #00ffff;
+  --color-cyan-soft: #e0ffff;
+  --color-cyber-dark: #050a10;
+  --color-cyber-light: #f0fdff;
+  --color-border: #00ffff33;
+  
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #00ffff;
+  --primary-soft: #e0ffff;
+  --border: #e2e8f0;
+}
+
+.dark {
+  --background: #050a10;
+  --foreground: #ededed;
+  --primary: #00ffff;
+  --primary-soft: rgba(0, 255, 255, 0.1);
+  --border: rgba(0, 255, 255, 0.2);
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  font-family: var(--font-sans);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+}
+
+.glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.dark .glow-cyan {
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+}
+
+.cyber-grid {
+  background-image: linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
 }
