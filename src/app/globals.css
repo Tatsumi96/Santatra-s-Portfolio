@@ -27,6 +27,10 @@
   --border: rgba(0, 255, 255, 0.2);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
