@@ -22,7 +22,7 @@ export default function About() {
           </span>
         </div>
 
-        <div className="md:col-span-5 relative saturate-0 hover:saturate-100 transition-all duration-1000">
+        <div className="md:col-span-5 relative saturate-100 lg:saturate-0 hover:saturate-100 transition-all duration-1000">
           <motion.div
             whileInView={{ opacity: 1, filter: 'grayscale(0%)' }}
             initial={{ opacity: 0, filter: 'grayscale(100%)' }}
