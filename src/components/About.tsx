@@ -4,17 +4,17 @@ import { useLanguage } from '@/hooks/use-language';
 import { translations } from '@/lib/translations';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
-import Marquee from './Marquee';
 import { useRef } from 'react';
+import Marquee from './Marquee';
 
 export default function About() {
   const { lang } = useLanguage();
   const t = translations[lang].about;
   const containerRef = useRef<HTMLElement>(null);
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ['start end', 'end start'],
   });
 
   const y = useTransform(scrollYProgress, [0, 1], [-100, 100]);
@@ -28,10 +28,14 @@ export default function About() {
       {/* Background Marquee */}
       <div className="absolute top-1/2 left-0 w-full -translate-y-1/2 opacity-[0.03] pointer-events-none -z-10">
         <Marquee speed={40}>
-          <span className="text-[20vw] font-black uppercase mr-12">{t.title}</span>
+          <span className="text-[20vw] font-black uppercase mr-12">
+            {t.title}
+          </span>
         </Marquee>
         <Marquee speed={60} reverse>
-          <span className="text-[20vw] font-black uppercase mr-12 outline-text">{t.subtitle}</span>
+          <span className="text-[20vw] font-black uppercase mr-12 outline-text">
+            {t.subtitle}
+          </span>
         </Marquee>
       </div>
 
@@ -45,7 +49,7 @@ export default function About() {
         <div className="md:col-span-5 relative">
           <motion.div
             style={{ y }}
-            className="aspect-[4/5] relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 group"
+            className="aspect-4/5 relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 group"
           >
             <Image
               src="/Santatra.jpeg"
@@ -80,7 +84,10 @@ export default function About() {
               { label: 'Interface', val: 'React Native / Mobile' },
               { label: 'Tooling', val: 'Git / Docker / AI' },
             ].map(item => (
-              <div key={item.label} className="bg-background p-8 group hover:bg-primary transition-colors duration-500">
+              <div
+                key={item.label}
+                className="bg-background p-8 group hover:bg-primary transition-colors duration-500"
+              >
                 <span className="text-[10px] font-mono opacity-30 block mb-2 uppercase group-hover:text-background transition-colors">
                   {item.label}
                 </span>
