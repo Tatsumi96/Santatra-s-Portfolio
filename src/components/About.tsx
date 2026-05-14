@@ -22,7 +22,7 @@ export default function About() {
           </span>
         </div>
 
-        <div className="md:col-span-5 relative">
+        <div className="md:col-span-5 relative saturate-0 hover:saturate-100 transition-all duration-1000">
           <motion.div
             whileInView={{ opacity: 1, filter: 'grayscale(0%)' }}
             initial={{ opacity: 0, filter: 'grayscale(100%)' }}
@@ -32,6 +32,7 @@ export default function About() {
             <Image
               src="/Santatra.jpeg"
               alt="Santatra"
+              sizes="50"
               fill
               className="object-cover scale-110 hover:scale-100 transition-transform duration-1000"
             />
