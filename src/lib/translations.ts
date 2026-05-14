@@ -5,6 +5,8 @@ export const translations = {
       skills: "Système",
       projects: "Travaux",
       contact: "Contact",
+      status: "Statut //",
+      available: "Disponible",
     },
     hero: {
       role: "Architecte Digital & Développeur Full-Stack",
@@ -49,6 +51,8 @@ export const translations = {
       github: "GitHub",
       phase: "Phase_Finale",
       tagline: "Collaborer_Bâtir_Évoluer_",
+      email_label: "EMAIL_SECURISE",
+      github_label: "DEPOT_GIT",
     },
   },
   en: {
@@ -57,6 +61,8 @@ export const translations = {
       skills: "System",
       projects: "Works",
       contact: "Contact",
+      status: "Status //",
+      available: "Available",
     },
     hero: {
       role: "Digital Architect & Full-Stack Developer",
@@ -101,6 +107,8 @@ export const translations = {
       github: "GitHub",
       phase: "Final_Phase",
       tagline: "Collaborate_Build_Scale_",
+      email_label: "EMAIL_SECURE",
+      github_label: "GIT_REPOSITORY",
     },
   },
   mg: {
@@ -109,6 +117,8 @@ export const translations = {
       skills: "Rafi-pahalalana",
       projects: "Tetikasa",
       contact: "Hifandray",
+      status: "Toe-javatra //",
+      available: "Afaka miasa",
     },
     hero: {
       role: "Mpamolavola sy Mpamorona Full-Stack",
@@ -153,6 +163,8 @@ export const translations = {
       github: "GitHub",
       phase: "Dingana_Farany",
       tagline: "Miaraka_Manorina_Mivoatra_",
+      email_label: "EMAIL_VOAROVY",
+      github_label: "GIT_REPOSITORA",
     },
   },
 };

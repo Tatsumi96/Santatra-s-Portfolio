@@ -20,6 +20,7 @@ export default function Navbar() {
   });
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -37,35 +38,43 @@ export default function Navbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled ? 'bg-background/80 backdrop-blur-xl border-b border-border-color' : 'bg-transparent'
+      className={`fixed top-0 w-full z-50 transition-all duration-700 ${
+        isScrolled ? 'h-16 bg-background/50 backdrop-blur-2xl border-b border-border-color' : 'h-24 bg-transparent'
       }`}
     >
-      <div className="max-w-screen-2xl mx-auto px-6 md:px-24 h-24 flex items-center justify-between">
-        <motion.span
-          whileHover={{ scale: 1.05 }}
-          className="text-xl font-black tracking-tighter flex items-center gap-1 cursor-pointer"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          role="link"
-          aria-label="Back to Top"
-        >
-          SANTATRA<span className="text-primary">.</span>
-        </motion.span>
+      <div className="max-w-screen-2xl mx-auto px-6 md:px-24 h-full flex items-center justify-between">
+        <div className="flex items-center gap-12">
+          <motion.span
+            whileHover={{ scale: 1.05 }}
+            className="text-xl font-black tracking-tighter flex items-center gap-1 cursor-pointer"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            role="link"
+            aria-label="Back to Top"
+          >
+            S<span className="hidden md:inline">ANTATRA</span><span className="text-primary">.</span>
+          </motion.span>
+          
+          <div className="hidden lg:flex gap-8 items-center border-l border-border-color pl-12 h-6">
+            <span className="text-[8px] font-mono opacity-30 uppercase tracking-[0.4em]">{t.status} </span>
+            <span className="text-[8px] font-mono uppercase tracking-[0.4em] text-primary">{t.available}</span>
+          </div>
+        </div>
 
-        <div className="hidden md:flex gap-12">
+        <div className="hidden md:flex gap-12 items-center">
           {['about', 'skills', 'projects', 'contact'].map(item => (
             <a
               key={item}
               href={`#${item}`}
-              className="text-[10px] font-black uppercase tracking-[0.4em] opacity-60 hover:opacity-100 transition-opacity"
+              className="group relative text-[9px] font-black uppercase tracking-[0.3em] opacity-40 hover:opacity-100 transition-all"
               aria-label={t[item as keyof typeof t]}
             >
               {t[item as keyof typeof t]}
+              <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-primary transition-all duration-500 ease-[0.16,1,0.3,1] group-hover:w-full" />
             </a>
           ))}
         </div>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-6 md:gap-10">
           <button
             onClick={toggleLang}
             aria-label="Change Language"

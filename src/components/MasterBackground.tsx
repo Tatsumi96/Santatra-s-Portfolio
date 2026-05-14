@@ -20,6 +20,7 @@ function MasterShape() {
   const { theme } = useTheme();
   const isLight = theme === "light";
   const [scrollProgress, setScrollProgress] = useState(0);
+  const mouse = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,8 +28,18 @@ function MasterShape() {
       const progress = window.scrollY / totalScroll;
       setScrollProgress(progress);
     };
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
   }, []);
 
   useFrame((state) => {
@@ -36,31 +47,34 @@ function MasterShape() {
     const time = state.clock.getElapsedTime();
     
     // Morphing based on scroll
-    meshRef.current.rotation.x = time * 0.1 + scrollProgress * Math.PI * 2;
-    meshRef.current.rotation.y = time * 0.15 + scrollProgress * Math.PI;
+    meshRef.current.rotation.x = THREE.MathUtils.lerp(meshRef.current.rotation.x, time * 0.1 + scrollProgress * Math.PI * 2 + mouse.current.y * 0.5, 0.05);
+    meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, time * 0.15 + scrollProgress * Math.PI + mouse.current.x * 0.5, 0.05);
     
     // Zoom/Scale effect
-    const scale = 1.5 + scrollProgress * 1.5;
+    const scale = 1.2 + scrollProgress * 1.0;
     meshRef.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
     
     // Dynamic distortion
-    const material = meshRef.current.material as any; // Cast to any to bypass potential issues with instanceof
+    const material = meshRef.current.material as THREE.ShaderMaterial & { distort: number };
     if (material && typeof material.distort === 'number') {
-       material.distort = 0.2 + scrollProgress * 0.5;
+       material.distort = THREE.MathUtils.lerp(material.distort, 0.4 + scrollProgress * 0.4 + Math.sin(time) * 0.1, 0.05);
     }
   });
 
   return (
-    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.2}>
-      <Icosahedron ref={meshRef} args={[1, 40]}>
+    <Float speed={2.5} rotationIntensity={0.8} floatIntensity={0.8}>
+      <Icosahedron ref={meshRef} args={[1, 64]}>
         <MeshDistortMaterial
-          color={isLight ? "#e0e0e0" : "#aaaaaa"} // Light grey for light mode, medium grey for dark mode
-          speed={1.5}
-          distort={0.3}
-          roughness={isLight ? 0.05 : 0.1} // Smoother in light mode for more reflection
-          metalness={0.98} // High metalness for chrome effect
+          color={isLight ? "#050505" : "#ffffff"}
+          speed={3}
+          distort={0.45}
+          roughness={0}
+          metalness={1}
           transparent
-          opacity={isLight ? 0.5 : 0.6} // Increased opacity, especially in dark mode
+          opacity={isLight ? 0.08 : 0.12}
+          wireframe={true}
+          emissive={isLight ? "#000000" : "#ffffff"}
+          emissiveIntensity={isLight ? 0 : 0.2}
         />
       </Icosahedron>
     </Float>
@@ -75,9 +89,9 @@ function SceneContent() {
     <>
       <PerspectiveCamera makeDefault position={[0, 0, 6]} />
       <Bvh firstHitOnly>
-        <ambientLight intensity={isLight ? 2 : 0.2} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={isLight ? 100 : 200} color={isLight ? "#e0e0e0" : "#aaaaaa"} />
-        <pointLight position={[-10, -10, -10]} intensity={isLight ? 50 : 100} color={isLight ? "#e0e0e0" : "#aaaaaa"} />
+        <ambientLight intensity={isLight ? 1 : 0.5} />
+        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={isLight ? 150 : 300} color={isLight ? "#ffffff" : "#ffffff"} />
+        <pointLight position={[-10, -10, -10]} intensity={isLight ? 80 : 150} color={isLight ? "#ffffff" : "#ffffff"} />
         <MasterShape />
         <Preload all />
         <AdaptiveDpr pixelated />

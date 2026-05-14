@@ -2,41 +2,59 @@
 
 import { useLanguage } from '@/hooks/use-language';
 import { translations } from '@/lib/translations';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
+import Marquee from './Marquee';
+import { useRef } from 'react';
 
 export default function About() {
   const { lang } = useLanguage();
   const t = translations[lang].about;
+  const containerRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [-100, 100]);
 
   return (
     <section
+      ref={containerRef}
       id="about"
-      className="relative py-32 px-6 md:px-24 border-t border-border-color"
+      className="relative py-32 px-6 md:px-24 border-t border-border-color overflow-hidden bg-background"
     >
-      <div className="max-w-screen-2xl w-full mx-auto grid grid-cols-1 md:grid-cols-12 gap-16">
-        {/* Decorative Grid Marker */}
+      {/* Background Marquee */}
+      <div className="absolute top-1/2 left-0 w-full -translate-y-1/2 opacity-[0.03] pointer-events-none -z-10">
+        <Marquee speed={40}>
+          <span className="text-[20vw] font-black uppercase mr-12">{t.title}</span>
+        </Marquee>
+        <Marquee speed={60} reverse>
+          <span className="text-[20vw] font-black uppercase mr-12 outline-text">{t.subtitle}</span>
+        </Marquee>
+      </div>
+
+      <div className="max-w-screen-2xl w-full mx-auto grid grid-cols-1 md:grid-cols-12 gap-16 relative z-10">
         <div className="md:col-span-1 hidden md:block">
           <span className="text-meta rotate-90 block origin-left mt-8">
             {t.subtitle}
           </span>
         </div>
 
-        <div className="md:col-span-5 relative saturate-100 lg:saturate-0 hover:saturate-100 transition-all duration-1000">
+        <div className="md:col-span-5 relative">
           <motion.div
-            whileInView={{ opacity: 1, filter: 'grayscale(0%)' }}
-            initial={{ opacity: 0, filter: 'grayscale(100%)' }}
-            viewport={{ once: true }}
-            className="aspect-[4/5] relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000"
+            style={{ y }}
+            className="aspect-[4/5] relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 group"
           >
             <Image
               src="/Santatra.jpeg"
               alt="Santatra"
-              sizes="50"
+              sizes="50vw"
               fill
-              className="object-cover scale-110 hover:scale-100 transition-transform duration-1000"
+              priority
+              className="object-cover scale-110 group-hover:scale-100 transition-transform duration-1000"
             />
-            {/* Technical overlays */}
             <div className="absolute inset-0 border border-primary/20 m-4 pointer-events-none" />
             <div className="absolute top-0 right-0 p-6 text-meta text-background mix-blend-difference">
               COORD_0432.99
@@ -51,7 +69,7 @@ export default function About() {
           className="md:col-span-6 flex flex-col justify-center"
         >
           <h2 className="text-meta mb-8 text-primary">01 // {t.title}</h2>
-          <p className="text-2xl md:text-4xl font-light leading-relaxed mb-12">
+          <p className="text-2xl md:text-5xl font-light leading-tight mb-12 tracking-tight">
             {t.description}
           </p>
 
@@ -62,11 +80,11 @@ export default function About() {
               { label: 'Interface', val: 'React Native / Mobile' },
               { label: 'Tooling', val: 'Git / Docker / AI' },
             ].map(item => (
-              <div key={item.label} className="bg-background p-6">
-                <span className="text-[10px] font-mono opacity-30 block mb-2 uppercase">
+              <div key={item.label} className="bg-background p-8 group hover:bg-primary transition-colors duration-500">
+                <span className="text-[10px] font-mono opacity-30 block mb-2 uppercase group-hover:text-background transition-colors">
                   {item.label}
                 </span>
-                <span className="text-sm font-bold uppercase tracking-wider">
+                <span className="text-sm font-black uppercase tracking-widest group-hover:text-background transition-colors">
                   {item.val}
                 </span>
               </div>
