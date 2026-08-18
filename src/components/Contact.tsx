@@ -12,7 +12,7 @@ export default function Contact() {
   const t = translations[lang].contact;
 
   return (
-    <section id="contact" className="relative py-48 px-6 md:px-24 border-t border-border-color overflow-hidden bg-background">
+    <section id="contact" className="relative py-48 px-6 md:px-24 border-t border-border-color overflow-hidden bg-transparent">
       <div className="max-w-screen-2xl w-full mx-auto relative z-10">
         <motion.div
           whileInView={{ opacity: 1, y: 0 }}

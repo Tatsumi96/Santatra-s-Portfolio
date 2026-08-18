@@ -23,7 +23,7 @@ export default function About() {
     <section
       ref={containerRef}
       id="about"
-      className="relative py-32 px-6 md:px-24 border-t border-border-color overflow-hidden bg-background"
+      className="relative py-32 px-6 md:px-24 border-t border-border-color overflow-hidden bg-transparent"
     >
       {/* Background Marquee */}
       <div className="absolute top-1/2 left-0 w-full -translate-y-1/2 opacity-[0.03] pointer-events-none -z-10">
@@ -38,6 +38,7 @@ export default function About() {
           </span>
         </Marquee>
       </div>
+
 
       <div className="max-w-screen-2xl w-full mx-auto grid grid-cols-1 md:grid-cols-12 gap-16 relative z-10">
         <div className="md:col-span-1 hidden md:block">

@@ -16,7 +16,7 @@ export const translations = {
     },
     about: {
       title: "Spécifications du Profil",
-      description: "Étudiant en Licence 3 Informatique à l'Université ASJA, je conçois des applications innovantes en fusionnant architecture logicielle et outils d'intelligence artificielle.",
+      description: "Titulaire d'un diplôme de Licence en Informatique (Université ASJA), je conçois des applications innovantes en fusionnant architecture logicielle et outils d'intelligence artificielle.",
       subtitle: "01_blueprint",
     },
     footer: {
@@ -72,7 +72,7 @@ export const translations = {
     },
     about: {
       title: "Profile Specifications",
-      description: "A 3rd-year Computer Science student at ASJA University, I design innovative applications by merging software architecture and AI-driven tools.",
+      description: "Holding a Bachelor's degree in Computer Science from ASJA University, I design innovative applications by merging software architecture and AI-driven tools.",
       subtitle: "01_blueprint",
     },
     footer: {
@@ -128,7 +128,7 @@ export const translations = {
     },
     about: {
       title: "Mombamomba ny Teknika",
-      description: "Mpianatra amin'ny taona fahatelo momba ny Informatika ao amin'ny Oniversite ASJA, tia mamorona zava-baovao amin'ny alalan'ny fampifandraisana ny rafitra lozisialy sy ny fitaovana AI.",
+      description: "Manam-boninahitra Lisansiasy amin'ny Informatika avy amin'ny Oniversite ASJA, tia mamorona zava-baovao amin'ny alalan'ny fampifandraisana ny rafitra lozisialy sy ny fitaovana AI.",
       subtitle: "01_blueprint",
     },
     footer: {

@@ -61,7 +61,7 @@ export default function Skills() {
   ];
 
   return (
-    <section id="skills" className="relative py-32 border-t border-border-color bg-background">
+    <section id="skills" className="relative py-32 border-t border-border-color bg-transparent">
       <div className="absolute top-0 left-0 w-full py-4 border-b border-border-color overflow-hidden opacity-20">
         <Marquee speed={30}>
           {skillCategories.flatMap(c => c.skills).map(s => (

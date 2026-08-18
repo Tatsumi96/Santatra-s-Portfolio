@@ -12,7 +12,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative py-32 border-t border-border-color bg-background z-20"
+      className="relative py-32 border-t border-border-color bg-transparent z-20"
     >
       <div className="px-6 md:px-24 mb-32">
         <h2 className="text-meta mb-4">03 // {t.title}</h2>

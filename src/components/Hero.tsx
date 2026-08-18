@@ -25,7 +25,7 @@ export default function Hero() {
   const lastName = "Santatra";
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-24 overflow-hidden bg-background">
+    <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-24 overflow-hidden bg-transparent">
       <div className="max-w-screen-2xl w-full mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0 }}
@@ -97,6 +97,7 @@ export default function Hero() {
         </div>
       </div>
       
+
       {/* Decorative background elements */}
       <div className="absolute top-1/2 left-0 w-full h-[1px] bg-primary/5 -translate-y-1/2 -z-10" />
       <div className="absolute top-0 right-24 h-full w-[1px] bg-primary/5 -z-10 hidden md:block" />
