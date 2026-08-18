@@ -55,9 +55,8 @@ export default function About() {
             <Image
               src="/Santatra.jpeg"
               alt="Santatra"
-              sizes="50vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
               fill
-              priority
               className="object-cover scale-110 group-hover:scale-100 transition-transform duration-1000"
             />
             <div className="absolute inset-0 border border-primary/20 m-4 pointer-events-none" />

@@ -121,6 +121,12 @@ body {
   animation: noise 8s steps(10) infinite;
 }
 
+@media (max-width: 768px) {
+  .grain::after {
+    display: none;
+  }
+}
+
 @keyframes noise {
   0%, 100% { transform:translate(0, 0) }
   10% { transform:translate(-5%, -10%) }

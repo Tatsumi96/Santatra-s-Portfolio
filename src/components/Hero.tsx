@@ -48,7 +48,7 @@ export default function Hero() {
           <div className="overflow-hidden text-reveal">
             <motion.h1 
               variants={titleAnim}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="heading-huge"
             >
               {firstName}
@@ -57,7 +57,7 @@ export default function Hero() {
           <div className="overflow-hidden text-reveal mt-[-0.1em]">
             <motion.h1 
               variants={titleAnim}
-              transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
               className="heading-huge outline-text"
             >
               {lastName}
@@ -69,7 +69,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-xl"
           >
             <p className="text-xl md:text-3xl font-light leading-snug opacity-80">
@@ -81,7 +81,7 @@ export default function Hero() {
           <motion.div
              initial={{ opacity: 0, scale: 0.9 }}
              animate={{ opacity: 1, scale: 1 }}
-             transition={{ duration: 1, delay: 1, ease: [0.16, 1, 0.3, 1] }}
+             transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             <a
               href="#projects"

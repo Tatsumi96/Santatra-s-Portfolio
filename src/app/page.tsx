@@ -7,8 +7,10 @@ import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
-import ScrollBlob3D from "@/components/ScrollBlob3D";
 import { motion, useScroll, useSpring } from "framer-motion";
+import dynamic from "next/dynamic";
+
+const ScrollBlob3D = dynamic(() => import("@/components/ScrollBlob3D"), { ssr: false });
 
 export default function Home() {
   const { scrollYProgress } = useScroll();
