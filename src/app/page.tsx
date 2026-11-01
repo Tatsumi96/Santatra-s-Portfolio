@@ -10,7 +10,7 @@ import CustomCursor from "@/components/CustomCursor";
 import { motion, useScroll, useSpring } from "framer-motion";
 import dynamic from "next/dynamic";
 
-const ScrollBlob3D = dynamic(() => import("@/components/ScrollBlob3D"), { ssr: false });
+const ScrollDNA3D = dynamic(() => import("@/components/ScrollDNA3D"), { ssr: false });
 
 export default function Home() {
   const { scrollYProgress } = useScroll();
@@ -28,7 +28,7 @@ export default function Home() {
         className="fixed top-0 left-0 right-0 h-1 bg-primary z-[60] origin-left"
         style={{ scaleX }}
       />
-      <ScrollBlob3D />
+      <ScrollDNA3D />
       <Navbar />
       <div className="relative z-10">
         <Hero />

@@ -7,6 +7,15 @@
   --color-cyan-soft: #e0ffff;
   --color-cyber-dark: #050505;
   --color-cyber-light: #fafafa;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-border-color: var(--border-color);
+  --color-accent: var(--accent);
+  --color-mint: var(--mint);
+  --color-hover-bg: var(--hover-bg);
+  --color-hover-text: var(--hover-text);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -22,7 +31,8 @@
   --section-3d-opacity: 0.5;
   --glass-bg: rgba(255, 255, 255, 0.5);
 
-  --accent: #050505;
+  --mint: #86f9c0;
+  --accent: #86f9c0;
   --hover-bg: #050505;
   --hover-text: #fafafa;
 
@@ -40,7 +50,8 @@
   --section-3d-opacity: 0.9;
   --glass-bg: rgba(5, 5, 5, 0.4);
 
-  --accent: #00ffff; /* Tech Cyan accent in dark mode */
+  --mint: #86f9c0;
+  --accent: #86f9c0;
   --hover-bg: #fafafa;
   --hover-text: #050505;
 

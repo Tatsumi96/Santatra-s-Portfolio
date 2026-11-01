@@ -35,16 +35,16 @@ export default function Contact() {
             <a
               href="mailto:fitiavanaandrianirina57@gmail.com"
               aria-label="Send Email"
-              className="group flex flex-col border border-border-color p-8 md:p-16 hover:bg-primary transition-colors duration-700"
+              className="group flex flex-col border border-border-color p-8 md:p-16 hover:bg-mint transition-colors duration-700"
             >
               <div className="flex justify-between items-start mb-16">
-                <div className="w-12 h-12 flex items-center justify-center border border-border-color group-hover:border-background transition-colors">
-                  <Mail size={20} className="group-hover:text-background transition-colors" />
+                <div className="w-12 h-12 flex items-center justify-center border border-border-color group-hover:border-cyber-dark transition-colors">
+                  <Mail size={20} className="group-hover:text-cyber-dark transition-colors" />
                 </div>
-                <ArrowUpRight size={24} className="group-hover:text-background transition-colors" />
+                <ArrowUpRight size={24} className="group-hover:text-cyber-dark transition-colors" />
               </div>
-              <span className="text-meta mb-4 group-hover:text-background/40 transition-colors">{t.email_label}</span>
-              <span className="text-2xl md:text-5xl font-black uppercase tracking-tighter group-hover:text-background transition-colors">
+              <span className="text-meta mb-4 group-hover:text-cyber-dark/60 transition-colors">{t.email_label}</span>
+              <span className="text-2xl md:text-5xl font-black uppercase tracking-tighter group-hover:text-cyber-dark transition-colors">
                 {t.email}
               </span>
             </a>
@@ -52,20 +52,20 @@ export default function Contact() {
 
           <Magnetic>
             <a
-              href="https://github.com/tatsumi96"
+              href="https://github.com/Tatsumi96"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Visit GitHub"
-              className="group flex flex-col border border-border-color p-8 md:p-16 hover:bg-primary transition-colors duration-700"
+              className="group flex flex-col border border-border-color p-8 md:p-16 hover:bg-mint transition-colors duration-700"
             >
               <div className="flex justify-between items-start mb-16">
-                <div className="w-12 h-12 flex items-center justify-center border border-border-color group-hover:border-background transition-colors">
-                  <Github size={20} className="group-hover:text-background transition-colors" />
+                <div className="w-12 h-12 flex items-center justify-center border border-border-color group-hover:border-cyber-dark transition-colors">
+                  <Github size={20} className="group-hover:text-cyber-dark transition-colors" />
                 </div>
-                <ArrowUpRight size={24} className="group-hover:text-background transition-colors" />
+                <ArrowUpRight size={24} className="group-hover:text-cyber-dark transition-colors" />
               </div>
-              <span className="text-meta mb-4 group-hover:text-background/40 transition-colors">{t.github_label}</span>
-              <span className="text-2xl md:text-5xl font-black uppercase tracking-tighter group-hover:text-background transition-colors">
+              <span className="text-meta mb-4 group-hover:text-cyber-dark/60 transition-colors">{t.github_label}</span>
+              <span className="text-2xl md:text-5xl font-black uppercase tracking-tighter group-hover:text-cyber-dark transition-colors">
                 {t.github}
               </span>
             </a>

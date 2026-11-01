@@ -1,183 +1,302 @@
 'use client';
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { MeshDistortMaterial, Sphere } from '@react-three/drei';
-import { useRef, useEffect, useState, useMemo } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 import { useTheme } from 'next-themes';
 
-// ─── Per-section blob states ────────────────────────────────────────────────
-// Each entry describes the blob at a given section in the page
-const SECTION_STATES = [
-  // 0 — Hero: large, calm, right side
-  { distort: 0.12, speed: 1.0, scale: 2.6, x: 0.32, y: 0.05,  wireOpacity: 0.09, dotOpacity: 0.18 },
-  // 1 — About: medium, more distorted, left
-  { distort: 0.52, speed: 2.8, scale: 1.9, x: -0.38, y: 0.18, wireOpacity: 0.08, dotOpacity: 0.14 },
-  // 2 — Skills: heavily distorted, center
-  { distort: 0.78, speed: 4.0, scale: 2.1, x: 0.08, y: -0.12, wireOpacity: 0.07, dotOpacity: 0.11 },
-  // 3 — Projects: wide, soft, right
-  { distort: 0.38, speed: 2.2, scale: 2.4, x: -0.22, y: 0.08, wireOpacity: 0.08, dotOpacity: 0.13 },
-  // 4 — Contact: smooth, centered, full
-  { distort: 0.08, speed: 0.7, scale: 1.8, x: 0.0,   y: 0.0,  wireOpacity: 0.10, dotOpacity: 0.20 },
+const MINT = '#86F9C0';
+const SEGMENTS = 96;
+
+type SectionState = {
+  radius: number;
+  height: number;
+  turns: number;
+  scale: number;
+  x: number;
+  y: number;
+  speed: number;
+  bend: number;
+  tilt: number;
+  spin: number;
+  activation: number;
+  node: number;
+  rung: number;
+};
+
+const SECTION_STATES: SectionState[] = [
+  { radius: 0.86, height: 5.1, turns: 2.6, scale: 1.15, x: 0.34, y: 0.04, speed: 0.1, bend: 0.0, tilt: 0.12, spin: 0.05, activation: 0.2, node: 0.075, rung: 0.026 },
+  { radius: 0.95, height: 4.7, turns: 3.4, scale: 1.02, x: -0.42, y: 0.14, speed: 0.15, bend: 0.15, tilt: 0.35, spin: -0.06, activation: 0.35, node: 0.08, rung: 0.028 },
+  { radius: 1.1, height: 4.4, turns: 4.2, scale: 1.05, x: 0.08, y: -0.1, speed: 0.2, bend: 0.45, tilt: 0.6, spin: 0.1, activation: 0.5, node: 0.085, rung: 0.03 },
+  { radius: 0.45, height: 4.2, turns: 2.2, scale: 1.2, x: -0.24, y: 0.08, speed: 0.13, bend: 0.85, tilt: 0.8, spin: -0.12, activation: 0.4, node: 0.078, rung: 0.028 },
+  { radius: 0.35, height: 4.6, turns: 3.2, scale: 1.1, x: 0.0, y: 0.0, speed: 0.11, bend: 1.0, tilt: 0.7, spin: 0.06, activation: 0.25, node: 0.072, rung: 0.026 },
 ];
 
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }
 
-// ─── 3D Blob Mesh ────────────────────────────────────────────────────────────
-function BlobScene({
+function axisPoint(u: number, height: number, bend: number, out: THREE.Vector3) {
+  const straightY = (u - 0.5) * height;
+  const ringR = height * 0.15;
+  const angle = (u - 0.5) * Math.PI * 2;
+  const ringX = Math.sin(angle) * ringR;
+  const ringY = Math.cos(angle) * ringR;
+  out.set(lerp(0, ringX, bend), lerp(straightY, ringY, bend), 0);
+  return out;
+}
+
+function DnaScene({
   scrollRef,
+  activityRef,
   isDark,
 }: {
   scrollRef: React.MutableRefObject<number>;
+  activityRef: React.MutableRefObject<number>;
   isDark: boolean;
 }) {
-  const wireRef    = useRef<THREE.Mesh>(null);
-  const wireMat    = useRef<THREE.Material & { distort: number; speed: number }>(null);
-  const pointsRef  = useRef<THREE.Points>(null);
+  const groupRef = useRef<THREE.Group>(null);
+  const nodesRef = useRef<THREE.InstancedMesh>(null);
+  const rungsRef = useRef<THREE.InstancedMesh>(null);
   const { viewport, size } = useThree();
   const isMobile = size.width < 768;
   const mobileScale = isMobile ? 0.4 : 1.0;
 
-  // Interpolated current state
   const cur = useRef({ ...SECTION_STATES[0] });
+  const phase = useRef(0);
+  const spinPhase = useRef(0);
 
-  // Sphere geometry for the points cloud (slightly larger radius)
-  const dotsGeom = useMemo(() => new THREE.SphereGeometry(1.15, 48, 48), []);
-  const dotsMat  = useMemo(
+  const nodeGeometry = useMemo(() => new THREE.SphereGeometry(1, 10, 10), []);
+  const nodeMaterial = useMemo(
     () =>
-      new THREE.PointsMaterial({
-        size: 0.022,
+      new THREE.MeshStandardMaterial({
+        color: '#fafafa',
+        roughness: 0.38,
+        metalness: 0.15,
         transparent: true,
-        opacity: 0.16,
-        sizeAttenuation: true,
-        color: '#ffffff',
+        opacity: 0.7,
+      }),
+    [],
+  );
+  const rungGeometry = useMemo(() => new THREE.CylinderGeometry(1, 1, 1, 6), []);
+  const rungMaterial = useMemo(
+    () =>
+      new THREE.MeshStandardMaterial({
+        color: MINT,
+        roughness: 0.5,
+        metalness: 0.1,
+        transparent: true,
+        opacity: 0.3,
+        depthWrite: false,
       }),
     [],
   );
 
-  useFrame(({ clock }) => {
-    const t        = clock.getElapsedTime();
+  const scratch = useMemo(
+    () => ({
+      dummy: new THREE.Object3D(),
+      up: new THREE.Vector3(0, 1, 0),
+      reference: new THREE.Vector3(),
+      axisA: new THREE.Vector3(),
+      axisB: new THREE.Vector3(),
+      axisC: new THREE.Vector3(),
+      tangent: new THREE.Vector3(),
+      normal: new THREE.Vector3(),
+      binormal: new THREE.Vector3(),
+      offset: new THREE.Vector3(),
+      p1: new THREE.Vector3(),
+      p2: new THREE.Vector3(),
+      mid: new THREE.Vector3(),
+      dir: new THREE.Vector3(),
+    }),
+    [],
+  );
+
+  useEffect(() => {
+    nodeMaterial.color.set(isDark ? '#fafafa' : '#111111');
+  }, [isDark, nodeMaterial]);
+
+  useEffect(() => {
+    nodesRef.current?.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    rungsRef.current?.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+  }, []);
+
+  useFrame(({ clock }, delta) => {
+    const t = clock.getElapsedTime();
     const progress = Math.max(0, Math.min(1, scrollRef.current));
-    const n        = SECTION_STATES.length - 1;
-    const raw      = progress * n;
-    const fromIdx  = Math.min(Math.floor(raw), n - 1);
-    const toIdx    = Math.min(fromIdx + 1, n);
-    const alpha    = raw - fromIdx;
+    const n = SECTION_STATES.length - 1;
+    const raw = progress * n;
+    const fromIdx = Math.min(Math.floor(raw), n - 1);
+    const toIdx = Math.min(fromIdx + 1, n);
+    const alpha = raw - fromIdx;
 
     const from = SECTION_STATES[fromIdx];
-    const to   = SECTION_STATES[toIdx];
+    const to = SECTION_STATES[toIdx];
 
-    // Target state (linearly interpolated between adjacent sections)
     const target = {
-      distort:     lerp(from.distort,     to.distort,     alpha),
-      speed:       lerp(from.speed,       to.speed,       alpha),
-      scale:       lerp(from.scale,       to.scale,       alpha),
-      x:           lerp(from.x,           to.x,           alpha),
-      y:           lerp(from.y,           to.y,           alpha),
-      wireOpacity: lerp(from.wireOpacity, to.wireOpacity, alpha),
-      dotOpacity:  lerp(from.dotOpacity,  to.dotOpacity,  alpha),
+      radius: lerp(from.radius, to.radius, alpha),
+      height: lerp(from.height, to.height, alpha),
+      turns: lerp(from.turns, to.turns, alpha),
+      scale: lerp(from.scale, to.scale, alpha),
+      x: lerp(from.x, to.x, alpha),
+      y: lerp(from.y, to.y, alpha),
+      speed: lerp(from.speed, to.speed, alpha),
+      bend: lerp(from.bend, to.bend, alpha),
+      tilt: lerp(from.tilt, to.tilt, alpha),
+      spin: lerp(from.spin, to.spin, alpha),
+      activation: lerp(from.activation, to.activation, alpha),
+      node: lerp(from.node, to.node, alpha),
+      rung: lerp(from.rung, to.rung, alpha),
     };
 
-    // Smooth damp current toward target
-    const S = 0.032; // position/shape smoothing
-    const P = 0.018; // extra lag for position
+    const S = 0.022;
+    const P = 0.012;
     const c = cur.current;
-    c.distort     = lerp(c.distort,     target.distort,     S);
-    c.speed       = lerp(c.speed,       target.speed,       S);
-    c.scale       = lerp(c.scale,       target.scale,       S);
-    c.x           = lerp(c.x,           target.x,           P);
-    c.y           = lerp(c.y,           target.y,           P);
-    c.wireOpacity = lerp(c.wireOpacity, target.wireOpacity, S);
-    c.dotOpacity  = lerp(c.dotOpacity,  target.dotOpacity,  S);
+    c.radius = lerp(c.radius, target.radius, S);
+    c.height = lerp(c.height, target.height, S);
+    c.turns = lerp(c.turns, target.turns, S);
+    c.scale = lerp(c.scale, target.scale, S);
+    c.x = lerp(c.x, target.x, P);
+    c.y = lerp(c.y, target.y, P);
+    c.speed = lerp(c.speed, target.speed, S);
+    c.bend = lerp(c.bend, target.bend, S);
+    c.tilt = lerp(c.tilt, target.tilt, S);
+    c.spin = lerp(c.spin, target.spin, S);
+    c.activation = lerp(c.activation, target.activation, S);
+    c.node = lerp(c.node, target.node, S);
+    c.rung = lerp(c.rung, target.rung, S);
 
-    const color = isDark ? '#d4d4d4' : '#111111';
+    const boost = activityRef.current;
+    activityRef.current *= Math.exp(-3 * delta);
 
-    // ── Wireframe sphere ──────────────────────────────────────────────────
-    if (wireRef.current && wireMat.current) {
-      (wireMat.current as any).distort = c.distort;
-      (wireMat.current as any).speed   = c.speed;
-      (wireMat.current as any).opacity = c.wireOpacity;
-      (wireMat.current as any).color.set(color);
+    phase.current += delta * c.speed * (1 + boost * 0.5);
+    spinPhase.current += delta * c.spin;
 
-      const sc = (c.scale + Math.sin(t * 0.22) * 0.055) * mobileScale;
-      wireRef.current.scale.setScalar(sc);
-      wireRef.current.position.x = c.x * viewport.width  * 0.30;
-      wireRef.current.position.y = c.y * viewport.height * 0.30;
-      wireRef.current.rotation.x = t * 0.042 + Math.sin(t * 0.17) * 0.09;
-      wireRef.current.rotation.y = t * 0.068 + Math.cos(t * 0.13) * 0.09;
-      wireRef.current.rotation.z = t * 0.021;
+    const nodes = nodesRef.current;
+    const rungs = rungsRef.current;
+    if (!nodes || !rungs) return;
+
+    const sc = scratch;
+    const pulse = Math.min(1, c.activation + boost * 0.5);
+    const eps = 0.002;
+
+    for (let i = 0; i < SEGMENTS; i++) {
+      const u = i / (SEGMENTS - 1);
+
+      axisPoint(u + eps, c.height, c.bend, sc.axisA);
+      axisPoint(u - eps, c.height, c.bend, sc.axisB);
+      sc.tangent.subVectors(sc.axisA, sc.axisB).normalize();
+
+      if (Math.abs(sc.tangent.z) < 0.88) {
+        sc.reference.set(0, 0, 1);
+      } else {
+        sc.reference.set(1, 0, 0);
+      }
+
+      sc.normal.crossVectors(sc.tangent, sc.reference).normalize();
+      sc.binormal.crossVectors(sc.tangent, sc.normal).normalize();
+
+      axisPoint(u, c.height, c.bend, sc.axisC);
+
+      const theta = u * c.turns * Math.PI * 2 + phase.current;
+      const wave = Math.sin(u * Math.PI * 8 - t * (0.5 + c.activation * 0.8)) * pulse;
+      const radius = c.radius * (1 + wave * 0.1);
+
+      sc.offset
+        .copy(sc.normal)
+        .multiplyScalar(Math.cos(theta) * radius)
+        .addScaledVector(sc.binormal, Math.sin(theta) * radius);
+
+      sc.p1.copy(sc.axisC).add(sc.offset);
+      sc.p2.copy(sc.axisC).sub(sc.offset);
+
+      const nodeScale = c.node * (1 + wave * 0.25);
+
+      sc.dummy.position.copy(sc.p1);
+      sc.dummy.quaternion.identity();
+      sc.dummy.scale.setScalar(nodeScale);
+      sc.dummy.updateMatrix();
+      nodes.setMatrixAt(i * 2, sc.dummy.matrix);
+
+      sc.dummy.position.copy(sc.p2);
+      sc.dummy.quaternion.identity();
+      sc.dummy.scale.setScalar(nodeScale);
+      sc.dummy.updateMatrix();
+      nodes.setMatrixAt(i * 2 + 1, sc.dummy.matrix);
+
+      sc.mid.addVectors(sc.p1, sc.p2).multiplyScalar(0.5);
+      sc.dir.subVectors(sc.p2, sc.p1);
+      const length = sc.dir.length();
+      sc.dir.normalize();
+
+      const rungScale = c.rung * (1 + wave * 0.18);
+      sc.dummy.position.copy(sc.mid);
+      sc.dummy.quaternion.setFromUnitVectors(sc.up, sc.dir);
+      sc.dummy.scale.set(rungScale, Math.max(length, 0.0001), rungScale);
+      sc.dummy.updateMatrix();
+      rungs.setMatrixAt(i, sc.dummy.matrix);
     }
 
-    // ── Points cloud ──────────────────────────────────────────────────────
-    if (pointsRef.current) {
-      const mat = pointsRef.current.material as THREE.PointsMaterial;
-      mat.opacity = c.dotOpacity;
-      mat.color.set(color);
+    nodes.instanceMatrix.needsUpdate = true;
+    rungs.instanceMatrix.needsUpdate = true;
 
-      const sc2 = (c.scale + 0.12 + Math.sin(t * 0.22 + 0.6) * 0.055) * mobileScale;
-      pointsRef.current.scale.setScalar(sc2);
-      pointsRef.current.position.x = c.x * viewport.width  * 0.30;
-      pointsRef.current.position.y = c.y * viewport.height * 0.30;
-      // Counter-rotate slowly so dots feel independent from the mesh
-      pointsRef.current.rotation.x = -t * 0.030;
-      pointsRef.current.rotation.y = -t * 0.055;
-      pointsRef.current.rotation.z =  t * 0.014;
+    if (groupRef.current) {
+      groupRef.current.position.x = c.x * viewport.width * 0.3;
+      groupRef.current.position.y = c.y * viewport.height * 0.3;
+      groupRef.current.scale.setScalar((c.scale + Math.sin(t * 0.16) * 0.008) * mobileScale);
+      groupRef.current.rotation.x = c.tilt * 0.18 + Math.sin(t * 0.08) * 0.015;
+      groupRef.current.rotation.y = spinPhase.current;
+      groupRef.current.rotation.z = c.tilt * 0.32;
     }
   });
 
   return (
     <>
-      {/* Ambient light for subtle shading on the distort material */}
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[5, 5, 5]} intensity={0.4} />
+      <ambientLight intensity={0.9} />
+      <directionalLight position={[4, 6, 5]} intensity={1.2} />
+      <directionalLight position={[-4, -2, -5]} intensity={0.5} />
 
-      {/* ── Wireframe morphing sphere ── */}
-      <Sphere ref={wireRef} args={[1, 80, 80]}>
-        <MeshDistortMaterial
-          ref={wireMat as any}
-          color={isDark ? '#d4d4d4' : '#111111'}
-          distort={0.3}
-          speed={2}
-          transparent
-          opacity={0.08}
-          wireframe
+      <group ref={groupRef}>
+        <instancedMesh
+          ref={nodesRef}
+          args={[nodeGeometry, nodeMaterial, SEGMENTS * 2]}
+          frustumCulled={false}
         />
-      </Sphere>
-
-      {/* ── Dotted point cloud (same distortion via rotation sync) ── */}
-      <points ref={pointsRef} geometry={dotsGeom} material={dotsMat} />
+        <instancedMesh
+          ref={rungsRef}
+          args={[rungGeometry, rungMaterial, SEGMENTS]}
+          frustumCulled={false}
+        />
+      </group>
     </>
   );
 }
 
-// ─── Canvas wrapper (fixed, full-viewport) ────────────────────────────────────
-export default function ScrollBlob3D() {
-  const scrollRef  = useRef(0);
+export default function ScrollDna3D() {
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  const isDark = resolvedTheme === 'dark';
+  const isDark = resolvedTheme !== 'light';
+  const scrollRef = useRef(0);
+  const activityRef = useRef(0);
+  const lastScroll = useRef(0);
 
   useEffect(() => {
-    setMounted(true);
 
     const onScroll = () => {
-      const top    = window.scrollY;
+      const top = window.scrollY;
       const height = document.documentElement.scrollHeight - window.innerHeight;
+      const delta = Math.abs(top - lastScroll.current);
+      lastScroll.current = top;
       scrollRef.current = height > 0 ? top / height : 0;
+      activityRef.current = Math.min(1, activityRef.current + delta / 180);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    // Also listen for lenis scroll events (custom event dispatched by lenis)
     window.addEventListener('lenis-scroll', onScroll as EventListener, { passive: true });
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('lenis-scroll', onScroll as EventListener);
     };
   }, []);
-
-  if (!mounted) return null;
 
   return (
     <div
@@ -191,7 +310,7 @@ export default function ScrollBlob3D() {
         style={{ background: 'transparent' }}
         dpr={[1, 1.5]}
       >
-        <BlobScene scrollRef={scrollRef} isDark={isDark} />
+        <DnaScene scrollRef={scrollRef} activityRef={activityRef} isDark={isDark} />
       </Canvas>
     </div>
   );

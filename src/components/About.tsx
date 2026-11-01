@@ -54,7 +54,7 @@ export default function About() {
           >
             <Image
               src="/Santatra.jpeg"
-              alt="Santatra"
+              alt="ANDRIANIRINA Féhizoro Santatra Fitiavana"
               sizes="(max-width: 768px) 100vw, 50vw"
               fill
               className="object-cover scale-110 group-hover:scale-100 transition-transform duration-1000"
@@ -79,10 +79,10 @@ export default function About() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border-color border border-border-color">
             {[
-              { label: 'Core_System', val: 'TypeScript / Next.js' },
-              { label: 'Architecture', val: 'React / Node.js' },
-              { label: 'Interface', val: 'React Native / Mobile' },
-              { label: 'Tooling', val: 'Git / Docker / AI' },
+              { label: 'Formation', val: 'Licence Informatique — Web & Mobile, ASJA (diplômé)' },
+              { label: 'Expérience', val: 'Web & Mobile / Automatisation IA' },
+              { label: 'Langues', val: 'FR : excellent / EN : intermédiaire' },
+              { label: 'Localisation', val: 'Antsirabe / Vakinankaratra' },
             ].map(item => (
               <div
                 key={item.label}

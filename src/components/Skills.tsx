@@ -52,12 +52,12 @@ export default function Skills() {
   const t = translations[lang].skills;
 
   const skillCategories = [
-    { name: t.categories.logic, skills: ["TypeScript", "JavaScript", "PHP"], icon: <Code2 /> },
-    { name: t.categories.structural, skills: ["React", "Next.js", "Tailwind"], icon: <Layout /> },
-    { name: t.categories.native, skills: ["React Native", "Expo"], icon: <Smartphone /> },
-    { name: t.categories.neural, skills: ["Claude", "Gemini", "OpenAI"], icon: <Cpu /> },
-    { name: t.categories.engine, skills: ["Node.js", "Express", "Laravel"], icon: <Server /> },
-    { name: t.categories.storage, skills: ["PostgreSQL", "MySQL", "Redis"], icon: <Database /> },
+    { name: t.categories.frontend, skills: ["Next.js", "React", "TypeScript"], icon: <Layout /> },
+    { name: t.categories.mobile, skills: ["React Native", "Expo"], icon: <Smartphone /> },
+    { name: t.categories.backend, skills: ["NestJS", "Laravel"], icon: <Code2 /> },
+    { name: t.categories.data, skills: ["PostgreSQL", "Redis"], icon: <Database /> },
+    { name: t.categories.infra, skills: ["Docker"], icon: <Server /> },
+    { name: t.categories.automation, skills: ["n8n", "Agents IA"], icon: <Cpu /> },
   ];
 
   return (

@@ -15,32 +15,40 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: 'Santatra | Développeur Web & Mobile Full-Stack',
+  title: 'Santatra | Développeur Full-Stack & Automatisation IA',
   description:
-    'Portfolio de Santatra, développeur Web et Mobile spécialisé en React, Next.js et React Native. Découvrez mes projets et compétences.',
+    'Portfolio de ANDRIANIRINA Féhizoro Santatra Fitiavana (Santatra), développeur full-stack et automatisation IA, basé à Antsirabe / Vakinankaratra, Madagascar.',
   keywords: [
     'Santatra',
-    'Développeur Web',
+    'Développeur Full-Stack',
     'Développeur Mobile',
+    'Automatisation IA',
+    'n8n',
+    'NestJS',
+    'Laravel',
+    'Expo',
+    'Docker',
+    'PostgreSQL',
+    'Redis',
     'React',
     'Next.js',
     'React Native',
     'TypeScript',
     'Portfolio',
   ],
-  authors: [{ name: 'Santatra' }],
+  authors: [{ name: 'ANDRIANIRINA Féhizoro Santatra Fitiavana' }],
   openGraph: {
-    title: 'Santatra | Développeur Web & Mobile Full-Stack',
+    title: 'Santatra | Développeur Full-Stack & Automatisation IA',
     description:
-      'Portfolio moderne mettant en avant des projets innovants en Web et Mobile.',
-    url: 'https://votre-portfolio.com', // À mettre à jour avec l'URL réelle
+      'Portfolio de Santatra : projets full-stack, mobile et automatisation IA.',
+    url: 'TODO',
     siteName: 'Santatra Portfolio',
     images: [
       {
         url: '/Santatra.jpeg',
         width: 800,
         height: 800,
-        alt: 'Santatra - Développeur',
+        alt: 'ANDRIANIRINA Féhizoro Santatra Fitiavana - Développeur Full-Stack',
       },
     ],
     locale: 'fr_FR',

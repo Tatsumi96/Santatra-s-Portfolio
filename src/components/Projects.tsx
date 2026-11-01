@@ -42,7 +42,7 @@ export default function Projects() {
                 </p>
                 <div className="flex gap-8">
                   <a
-                    href="https://github.com/tatsumi96"
+                    href="https://github.com/Tatsumi96"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest hover:underline"

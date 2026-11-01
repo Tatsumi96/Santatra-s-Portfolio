@@ -88,9 +88,9 @@ export default function Hero() {
               aria-label={t.cta}
               className="group relative inline-flex items-center justify-center px-16 py-7 overflow-hidden font-black uppercase tracking-[0.4em] text-[10px] border border-primary/10 hover:border-primary transition-colors duration-700"
             >
-              <span className="relative z-10 transition-colors duration-500 group-hover:text-background">{t.cta}</span>
+              <span className="relative z-10 transition-colors duration-500 group-hover:text-cyber-dark">{t.cta}</span>
               <motion.div 
-                className="absolute inset-0 bg-primary translate-y-[101%] group-hover:translate-y-0 transition-transform duration-700 ease-[0.16,1,0.3,1]"
+                className="absolute inset-0 bg-mint translate-y-[101%] group-hover:translate-y-0 transition-transform duration-700 ease-[0.16,1,0.3,1]"
               />
             </a>
           </motion.div>
